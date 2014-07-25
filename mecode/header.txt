@@ -1,17 +1,24 @@
-DVAR $hFile
-DVAR $cCheck
-DVAR $press
-DVAR $length
-DVAR $lame
-DVAR $comport
+;########### Standard variables for pressure functions ########################
+DVAR $hFile		; Used in all functions
+DVAR $cCheck	; Used in setPress() and togglePress()
+DVAR $lame  	; Used in setPress() and togglePress()
+DVAR $press		; Used in setPress()
+DVAR $length	; Used in setPress()
 
+Primary
+FILECLOSE
 
-$DO0.0=0
-$DO1.0=0
-$DO2.0=0
-$DO3.0=0
+; Below, we call several required GCode commands; these commands begin with a G:
+G71            ; Standard GCode command for metric units
+G76            ; Standard GCode command for time base seconds
+G68            
+G65 F3000        ; Sets an acceleration speed in mm/s^2
+G66 F3000        ; Sets a deceleration speed in mm/s^2
 
-Primary ; sets primary units mm and s
-G65 F2000; accel speed mm/s^2
-G66 F2000;accel speed mm/s^2
+; The “ENABLE” command allows us to enable axes on the printer; this is required for printing
+ENABLE X Y A B C D U     ; enables all the axis 
 
+Incremental                ; “Incremental” tells the printer to referring to relative coordinates
+
+	
+;########### PROGRAM START ########################

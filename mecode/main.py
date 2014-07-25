@@ -148,6 +148,15 @@ class G(object):
 
         self.setup()
 
+    def get_last_position(self):
+        if (len(self.position_history)>0):
+            return self.position_history[-1] 
+        else:
+            return None
+    
+    def get_last_speed(self):
+        return (self.speed_history[-1] if (len(self.speed_history) >0) else None)
+
     def __enter__(self):
         """
         Context manager entry
@@ -199,6 +208,9 @@ class G(object):
             self.write('G91')
             self.is_relative = True
 
+    def is_relative_mode(self):
+        return self.is_relative
+        
     def absolute(self):
         """ Enter absolute movement mode, in general this method should not be
         used, most methods handle it automatically.
@@ -207,6 +219,9 @@ class G(object):
         if self.is_relative:
             self.write('G90')
             self.is_relative = False
+
+    def is_absolute_mode(self):
+        return not self.is_relative
 
     def feed(self, rate):
         """ Set the feed rate (tool head speed) in mm/s

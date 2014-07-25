@@ -1,0 +1,107 @@
+; ------------ Set z Home Function --------------------
+DFS set_z_home
+	G90
+	G1 A-5 B-5 C-5 D-5 F20
+	G91
+	G92 A(-$zA-5) B(-$zB-5) C(-$zC - 5) D(-$zD - 5)
+ENDDFS
+
+; ----- Nozzle Change Function --------------------------------------
+DFS NozzleChange
+
+	$nozzles = $Q
+	$set_home = $R
+		
+	F40
+		
+	IF $set_home = 1	
+		G90	
+		G1 A50 B50 C50 D50	
+		G1 X0 Y0	
+		G91
+	ENDIF    
+		
+	dwell(0.25)
+		
+	if $nozzles = 12		
+	G90	
+	G1 A=50	
+	G91		
+	G1 X($Bx-$Ax-($Bx_dif-$Ax_dif))  Y($Ay-$By+($Ay_dif-$By_dif))	
+	
+	else if $nozzles = 13		
+	G90	
+	G1 A=50	
+	G91		
+	G1 X($Cx-$Ax-($Cx_dif-$Ax_dif))  Y($Ay-$Cy+($Ay_dif-$Cy_dif))   
+		
+	else if $nozzles = 14		
+	G90	
+	G1 A=50	
+	G91		
+	G1 X($Dx-$Ax-($Dx_dif-$Ax_dif))  Y($Ay-$Dy+($Ay_dif-$Dy_dif))
+		
+	else if $nozzles = 21		
+	G90	
+	G1 B=50	
+	G91		
+	G1 X($Ax-$Bx-($Ax_dif-$Bx_dif))  Y($By-$Ay+($By_dif-$Ay_dif))  
+		
+	else if $nozzles = 23		
+	G90	
+	G1 B=50	
+	G91		
+	G1 X($Cx-$Bx-($Cx_dif-$Bx_dif))  Y($By-$Cy+($By_dif-$Cy_dif))
+		
+	else if $nozzles = 24		
+	G90	
+	G1 B=50
+	G91		
+	G1 X($Dx-$Bx-($Dx_dif-$Bx_dif))  Y($By-$Dy+($By_dif-$Dy_dif))
+		
+	else if $nozzles = 31		
+	G90	
+	G1 C=50	
+	G91	   
+	G1 X($Ax-$Cx-($Ax_dif-$Cx_dif))  Y($Cy-$Ay+($Cy_dif-$Ay_dif))
+		
+	else if $nozzles = 32	
+	G90	
+	G1 C=50	
+	G91		
+	G1 X($Bx-$Cx-($Bx_dif-$Cx_dif))  Y($Cy-$By+($Cy_dif-$By_dif))
+		
+	else if $nozzles = 34	
+	G90	
+	G1 C=50	
+	G91		
+	G1 X($Dx-$Cx-($Dx_dif-$Cx_dif))  Y($Cy-$Dy+($Cy_dif-$Dy_dif))
+		
+	else if $nozzles = 41	
+	G90
+	G1 D=50	
+	G91		
+	G1 X($Ax-$Dx-($Ax_dif-$Dx_dif))  Y($Dy-$Ay+($Dy_dif-$Ay_dif))
+		
+	else if $nozzles = 42		
+	G90	
+	G1 D=50	
+	G91		
+	G1 X($Bx-$Dx-($Bx_dif-$Dx_dif))  Y($Dy-$By+($Dy_dif-$By_dif))
+		
+	else if $nozzles = 43		
+	G90	
+	G1 D=50	
+	G91		
+	G1 X($Cx-$Dx-($Cx_dif-$Dx_dif))  Y($Dy-$Cy+($Dy_dif-$Cy_dif))
+		
+	else
+		MSGDISPLAY 1 "Improper Nozzle Change Input"  
+	ENDIF
+	  
+	IF $set_home = 1			
+		POSOFFSET CLEAR X Y U				
+		G92 X0 Y0     		
+	ENDIF	
+
+ENDDFS
